@@ -1,10 +1,7 @@
-# This config was automatically generated from your source code
-# Stacks detected: deps:python:.,file:manage.py:.
 version: 2.1
-orbs:
-  python: circleci/python@2
+
 jobs:
-  test-and-line:
+  test-and-lint:
     docker:
       - image: cimg/python:3.10.1
     steps:
@@ -15,6 +12,7 @@ jobs:
       - run:
           name: run tests
           command: python manage.py test
+
 workflows:
   build-and-test-workflow:
     jobs:
