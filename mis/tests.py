@@ -9,19 +9,22 @@ from django.urls import reverse
 class LoginViewTest(TestCase):
     @classmethod
     def setUpTestData(self):
-        self.user = User.objects.create(username='test_username', password='test_password')
+        self.user_1 = User.objects.create(username='test_username', password='test_password')
 
     def setUp(self):
         self.client = APIClient()
 
     def test_login_success(self):
-        response = self.client.post('/login/', {'username': 'test_username', 'password': 'test_password'})
+        data = {'username': 'test_username', 'password': 'test_password'}
+        response = self.client.post(reverse('login'), data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_login_invalid_credentials(self):
-        response = self.client.post('/login/', {'username': 'test_username', 'password': 'wrong_password'})
+    def test_login_fail(self):
+        data = {'username': 'test_username', 'password': 'wrong_password'}
+        response = self.client.post(reverse('login'), data)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
-    def test_login_user_not_found(self):
-        response = self.client.post('/login/', {'username': 'wrong_username', 'password': 'wrong_password'})
+    def test_non_existing_user(self):
+        data = {'username': 'random_username', 'password': 'random_password'}
+        response = self.client.post(reverse('login'), data)
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
