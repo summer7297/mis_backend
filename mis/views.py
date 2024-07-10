@@ -23,5 +23,6 @@ def login_view(request):
             return Response({'result': 'success', 'message': 'Valid credentials'}, status=status.HTTP_200_OK)
         else:
             return Response({'result': 'error', 'message': 'Invalid credentials'}, status=status.HTTP_404_NOT_FOUND)
+
     else:
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
